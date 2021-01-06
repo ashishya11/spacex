@@ -23,7 +23,7 @@ export const loadAllSpaceShip = () => {
     }
 }
 
-export const loadAllFilteredByLaunchSpaceShipData = (keyword) => {debugger
+export const loadAllFilteredByLaunchSpaceShipData = (keyword) => {
     return (dispatch) => {
         fetch(`https://api.spaceXdata.com/v3/launches?limit=100&launch_success=${keyword}`, {
             method: 'GET',
@@ -41,9 +41,27 @@ export const loadAllFilteredByLaunchSpaceShipData = (keyword) => {debugger
     }
 }
 
-export const loadAllLaunchFailureFilteredSpaceShipData = (keyword) => {
+export const loadAllFilteredByLaunchYearSpaceShipData = (launch, land, year) => {
     return (dispatch) => {
-        fetch('https://api.spaceXdata.com/v3/launches?limit=100&launch_success=true', {
+        fetch(`https://api.spaceXdata.com/v3/launches?limit=100&launch_success=${launch}&land_success=${land}&launch_year=${year}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(ship => ship.json())
+            .then(ship => {
+                dispatch({ type: LOAD_FILTERED_SPACE_SHIP, payload: ship });
+            })
+            .catch((err) => {
+                dispatch({ type: SOME_ERROR_OCCURED, payload: err });
+            });
+    }
+}
+
+export const loadAllFilteredByLaunchAndLandSpaceShipData = (launch, land) => {
+    return (dispatch) => {
+        fetch(`https://api.spaceXdata.com/v3/launches?limit=100&launch_success=${launch}&land_success=${land}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

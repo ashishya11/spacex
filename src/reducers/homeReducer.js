@@ -1,7 +1,7 @@
 import {
     LOAD_ALL_SPACE_SHIP,
     LOAD_FILTERED_SPACE_SHIP,
-    
+
     SOME_ERROR_OCCURED
 } from '../actions/types';
 

@@ -2,14 +2,32 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './index.css';
 
-import { loadAllSpaceShip, loadAllFilteredByLaunchSpaceShipData } from '../../actions';
+import {
+    loadAllSpaceShip,
+    loadAllFilteredByLaunchSpaceShipData,
+    loadAllFilteredByLaunchYearSpaceShipData,
+    loadAllFilteredByLaunchAndLandSpaceShipData
+} from '../../actions';
 
 class App extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            filterByLaunchValue: '',
+            launch: '',
+            land: '',
+            year: '',
+            filterBy: '',
+            years: [
+                { a: '2006', b: '2007' },
+                { a: '2008', b: '2009' },
+                { a: '2010', b: '2011' },
+                { a: '2012', b: '2013' },
+                { a: '2014', b: '2015' },
+                { a: '2016', b: '2017' },
+                { a: '2018', b: '2019' },
+                { a: '2020' }
+            ]
         }
     }
 
@@ -17,18 +35,41 @@ class App extends Component {
         this.props.loadAllSpaceShip();
     }
 
-    renderShipCard() {
-
-    }
-
-    handleClick = (e) => {
-        const filterByLaunchValue = e.target.value;
-        this.setState({ filterByLaunchValue: filterByLaunchValue }, () => {
-            this.props.loadAllFilteredByLaunchSpaceShipData(filterByLaunchValue);
+    handleYearFilterClick = (e) => {
+        const filterByYearValue = e.target.value;
+        this.setState({ year: filterByYearValue }, () => {
+            this.getApiCall();
         })
     }
 
+    handleLaunchFilterClick = (e) => {
+        const filterByLaunchValue = e.target.value;
+        this.setState({ launch: filterByLaunchValue }, () => {
+            this.getApiCall();
+        })
+    }
+
+    handleLandFilterClick = (e) => {
+        const filterByLandValue = e.target.value;
+        this.setState({ land: filterByLandValue }, () => {
+            this.getApiCall();
+        })
+    }
+
+    getApiCall() {
+        const { launch, land, year } = this.state;
+        // if ((launch !== '' && land !== '' && year !== '') || (launch == '' && land == '')) {
+            this.props.loadAllFilteredByLaunchYearSpaceShipData(launch, land, year);
+        // } else if (launch !== '' && land !== '') {
+            // this.props.loadAllFilteredByLaunchAndLandSpaceShipData(launch, land);
+        // } else if (launch !== '') {
+            // this.props.loadAllFilteredByLaunchSpaceShipData(launch);
+        // }
+
+    }
+
     render() {
+        const { launch, land, year } = this.state;
         return (
             <div className="app_container">
                 <h2 className="header_title">SpaceX Launch Programs</h2>
@@ -42,37 +83,12 @@ class App extends Component {
                                         Launch Year
                                     </div>
                                     <hr />
-                                    <div className="filter_content">
-                                        <button value="true" onClick={(e) => this.handleClick(e)}>2006</button>
-                                        <button value="false" onClick={(e) => this.handleClick(e)}>2007</button>
-                                    </div>
-                                    <div className="filter_content">
-                                        <button value="true" onClick={(e) => this.handleClick(e)}>2008</button>
-                                        <button value="false" onClick={(e) => this.handleClick(e)}>2009</button>
-                                    </div>
-                                    <div className="filter_content">
-                                        <button value="true" onClick={(e) => this.handleClick(e)}>2010</button>
-                                        <button value="false" onClick={(e) => this.handleClick(e)}>2011</button>
-                                    </div>
-                                    <div className="filter_content">
-                                        <button value="true" onClick={(e) => this.handleClick(e)}>2012</button>
-                                        <button value="false" onClick={(e) => this.handleClick(e)}>2013</button>
-                                    </div>
-                                    <div className="filter_content">
-                                        <button value="true" onClick={(e) => this.handleClick(e)}>2014</button>
-                                        <button value="false" onClick={(e) => this.handleClick(e)}>2015</button>
-                                    </div>
-                                    <div className="filter_content">
-                                        <button value="true" onClick={(e) => this.handleClick(e)}>2016</button>
-                                        <button value="false" onClick={(e) => this.handleClick(e)}>2017</button>
-                                    </div>
-                                    <div className="filter_content">
-                                        <button value="true" onClick={(e) => this.handleClick(e)}>2018</button>
-                                        <button value="false" onClick={(e) => this.handleClick(e)}>2019</button>
-                                    </div>
-                                    <div className="filter_content">
-                                        <button value="true" onClick={(e) => this.handleClick(e)}>2020</button>
-                                    </div>
+                                    {this.state.years.map((value, index) => (
+                                        <div key={index} className="filter_content">
+                                            <button className={year == value.a ? 'active' : ''} value={value.a} onClick={(e) => this.handleYearFilterClick(e)}>{value.a}</button>
+                                            {value.b !== void 0 ? <button className={year == value.b ? 'active' : ''} value={value.b} onClick={(e) => this.handleYearFilterClick(e)}>{value.b}</button> : ''}
+                                        </div>
+                                    ))}
                                 </div>
                                 <div className="filter_by_launch_year_container">
                                     <div className="filter_title">
@@ -80,8 +96,8 @@ class App extends Component {
                                     </div>
                                     <hr />
                                     <div className="filter_content">
-                                        <button value="true" onClick={(e) => this.handleClick(e)}>True</button>
-                                        <button value="false" onClick={(e) => this.handleClick(e)}>False</button>
+                                        <button className={launch == 'true' ? 'active' : ''} value="true" onClick={(e) => this.handleLaunchFilterClick(e)}>True</button>
+                                        <button className={launch == 'false' ? 'active' : ''} value="false" onClick={(e) => this.handleLaunchFilterClick(e)}>False</button>
                                     </div>
                                 </div>
                                 <div className="filter_by_launch_year_container">
@@ -90,8 +106,8 @@ class App extends Component {
                                     </div>
                                     <hr />
                                     <div className="filter_content">
-                                        <button value="true" onClick={(e) => this.handleClick(e)}>True</button>
-                                        <button value="false" onClick={(e) => this.handleClick(e)}>False</button>
+                                        <button className={land == 'true' ? 'active' : ''} value="true" onClick={(e) => this.handleLandFilterClick(e)}>True</button>
+                                        <button className={land == 'false' ? 'active' : ''} value="false" onClick={(e) => this.handleLandFilterClick(e)}>False</button>
                                     </div>
                                 </div>
                             </div>
@@ -132,5 +148,8 @@ const mapStateToProps = ({ home }) => {
 }
 
 export default connect(mapStateToProps, {
-    loadAllSpaceShip, loadAllFilteredByLaunchSpaceShipData
+    loadAllSpaceShip,
+    loadAllFilteredByLaunchSpaceShipData,
+    loadAllFilteredByLaunchYearSpaceShipData,
+    loadAllFilteredByLaunchAndLandSpaceShipData
 })(App);
