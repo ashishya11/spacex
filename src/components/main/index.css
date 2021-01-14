@@ -8,6 +8,8 @@ body {
 
 .app_container {
   padding: 0px 10px;
+  max-width: 1440px;
+  margin: auto;
 }
 
 .header_title {
@@ -28,14 +30,19 @@ body {
 }
 
 .col_80 {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: wrap;
   width: 80%;
   margin: 0px 10px;
 }
 
 .col_25 {
   width: 25%;
-  display: inline-flex;
-  padding: 0px 7px;
+  padding: 0px 10px;
   margin-bottom: 10px;
 }
 
@@ -58,8 +65,7 @@ body {
 }
 
 .avatar_img {
-  height: 256px;
-  width: 256px;
+  width: 100%;
 }
 
 .details {

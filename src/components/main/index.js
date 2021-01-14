@@ -59,11 +59,11 @@ class App extends Component {
     getApiCall() {
         const { launch, land, year } = this.state;
         // if ((launch !== '' && land !== '' && year !== '') || (launch == '' && land == '')) {
-            this.props.loadAllFilteredByLaunchYearSpaceShipData(launch, land, year);
+        this.props.loadAllFilteredByLaunchYearSpaceShipData(launch, land, year);
         // } else if (launch !== '' && land !== '') {
-            // this.props.loadAllFilteredByLaunchAndLandSpaceShipData(launch, land);
+        // this.props.loadAllFilteredByLaunchAndLandSpaceShipData(launch, land);
         // } else if (launch !== '') {
-            // this.props.loadAllFilteredByLaunchSpaceShipData(launch);
+        // this.props.loadAllFilteredByLaunchSpaceShipData(launch);
         // }
 
     }
@@ -85,8 +85,8 @@ class App extends Component {
                                     <hr />
                                     {this.state.years.map((value, index) => (
                                         <div key={index} className="filter_content">
-                                            <button className={year == value.a ? 'active' : ''} value={value.a} onClick={(e) => this.handleYearFilterClick(e)}>{value.a}</button>
-                                            {value.b !== void 0 ? <button className={year == value.b ? 'active' : ''} value={value.b} onClick={(e) => this.handleYearFilterClick(e)}>{value.b}</button> : ''}
+                                            <button className={year === value.a ? 'active' : ''} value={value.a} onClick={(e) => this.handleYearFilterClick(e)}>{value.a}</button>
+                                            {value.b !== void 0 ? <button className={year === value.b ? 'active' : ''} value={value.b} onClick={(e) => this.handleYearFilterClick(e)}>{value.b}</button> : ''}
                                         </div>
                                     ))}
                                 </div>
@@ -96,8 +96,8 @@ class App extends Component {
                                     </div>
                                     <hr />
                                     <div className="filter_content">
-                                        <button className={launch == 'true' ? 'active' : ''} value="true" onClick={(e) => this.handleLaunchFilterClick(e)}>True</button>
-                                        <button className={launch == 'false' ? 'active' : ''} value="false" onClick={(e) => this.handleLaunchFilterClick(e)}>False</button>
+                                        <button className={launch === 'true' ? 'active' : ''} value="true" onClick={(e) => this.handleLaunchFilterClick(e)}>True</button>
+                                        <button className={launch === 'false' ? 'active' : ''} value="false" onClick={(e) => this.handleLaunchFilterClick(e)}>False</button>
                                     </div>
                                 </div>
                                 <div className="filter_by_launch_year_container">
@@ -106,8 +106,8 @@ class App extends Component {
                                     </div>
                                     <hr />
                                     <div className="filter_content">
-                                        <button className={land == 'true' ? 'active' : ''} value="true" onClick={(e) => this.handleLandFilterClick(e)}>True</button>
-                                        <button className={land == 'false' ? 'active' : ''} value="false" onClick={(e) => this.handleLandFilterClick(e)}>False</button>
+                                        <button className={land === 'true' ? 'active' : ''} value="true" onClick={(e) => this.handleLandFilterClick(e)}>True</button>
+                                        <button className={land === 'false' ? 'active' : ''} value="false" onClick={(e) => this.handleLandFilterClick(e)}>False</button>
                                     </div>
                                 </div>
                             </div>
@@ -118,13 +118,14 @@ class App extends Component {
                             <div key={singleShip.flight_number} className="col_25">
                                 <div className="card_container">
                                     <div className="image_container">
-                                        <img src={singleShip.links.mission_patch_small} className="avatar_img" alt="logo" />
+                                        <img src={singleShip.links.mission_patch_small} width="100%" className="avatar_img" alt="logo" />
                                     </div>
                                     <div className="card_content">
                                         <p className="title">{`${singleShip.mission_name} #${singleShip.flight_number}`}</p>
-                                        <p><span className="details">Mission Ids:</span>{singleShip.mission_id.map((singleMissionId) => (
-                                            <li key={singleMissionId}>{singleMissionId}</li>
-                                        ))}</p>
+                                        <p><span className="details">Mission Ids:</span>
+                                            {singleShip.mission_id.map((singleMissionId) => (
+                                                <li key={singleMissionId}>{singleMissionId}</li>
+                                            ))}</p>
                                         <p><span className="details">Launch Year:</span><span>{singleShip.launch_year}</span></p>
                                         <p><span className="details">Successful Launch:</span><span>{`${singleShip.launch_success}`}</span></p>
                                         <p><span className="details">Successful Landing:</span><span>{`${singleShip.rocket.first_stage.cores[0].land_success}`}</span></p>
